@@ -38,6 +38,9 @@ void Animation::SetModel(int model)
 
 void Animation::Play(int animModel, bool loop)
 {
+	if (curAnim == animModel)
+		return;
+
 	curAnim = animModel;
 	if (attachIndex>=0) {
 		MV1DetachAnim(baseModel, attachIndex);

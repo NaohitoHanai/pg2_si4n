@@ -9,6 +9,12 @@ Player::Player()
 	int root = MV1SearchFrame(hModel, "root");
 	MV1SetFrameUserLocalMatrix(hModel, root, MGetRotY(DX_PI_F));
 
+	hAnimRun = MV1LoadModel("data/Character/Player/Anim_Run.mv1");
+	hAnimStop = MV1LoadModel("data/Character/Player/Anim_Neutral.mv1");
+	animation = new Animation();
+	animation->SetModel(hModel); // アニメーションを付けるモデル
+	animation->Play(hAnimRun, true);
+
 	position = VGet(0, 0, 0);
 	rotation = VGet(0, 0, 0);
 
@@ -27,6 +33,8 @@ void Player::Start()
 //float PI = 3.141592653589793238462643383279;
 void Player::Update()
 {
+	animation->Update();
+
 	if (CheckHitKey(KEY_INPUT_W))
 	{
 		//position.z += cosf(rotation.y) * 2.0f;
@@ -41,6 +49,10 @@ void Player::Update()
 		//VECTOR move = VGet(0, 0, 1);  // 回転してない時の長さ１のベクトル
 		//VECTOR forward = move * rotY; // 回転行列を掛けるとforward
 		//position += forward * 2.0f; // ここで速度を掛ける
+		animation->Play(hAnimRun, true);
+	}
+	else {
+		animation->Play(hAnimStop, true);
 	}
 	if (CheckHitKey(KEY_INPUT_D))
 	{

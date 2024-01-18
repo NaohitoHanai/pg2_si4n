@@ -1,5 +1,6 @@
 #pragma once
 #include "../Library/GameObject.h"
+#include "animation.h"
 
 class Player : public GameObject
 {
@@ -15,6 +16,13 @@ private:
 	VECTOR rotation;
 	VECTOR jumpVelocity; // ジャンプベクトル
 	bool landing;
+
+	Animation* animation;
+
+	int hAnimRun; // 走りアニメーション
+	int hAnimStop; // 待機アニメーション
+	// ３段攻撃を追加（アニメーションが３つ増えます）
+//	int hAnimation[5];
 
 	bool CheckJumpKey();
 };
