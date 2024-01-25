@@ -155,6 +155,7 @@
     <ClInclude Include="Source\animation.h" />
     <ClInclude Include="Source\Axis.h" />
     <ClInclude Include="Source\BootScene.h" />
+    <ClInclude Include="Source\Goblin.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Screen.h" />
     <ClInclude Include="Source\DebugScreen.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="Source\Axis.cpp" />
     <ClCompile Include="Source\BootScene.cpp" />
     <ClCompile Include="Source\DebugScreen.cpp" />
+    <ClCompile Include="Source\Goblin.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayScene.cpp" />
     <ClCompile Include="Source\SceneFactory.cpp" />

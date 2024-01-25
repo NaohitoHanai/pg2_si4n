@@ -12,6 +12,10 @@ public:
 	void Draw() override;
 private:
 	int hModel;
+
+	int hWeapon;
+	MATRIX mWeapon;
+
 	VECTOR position;
 	VECTOR rotation;
 	VECTOR jumpVelocity; // ジャンプベクトル
@@ -38,4 +42,5 @@ private:
 	bool lastAttackKey; // 前回の攻撃ボタンの状態
 
 	bool CheckJumpKey();
+	void reachToEnemy();
 };
