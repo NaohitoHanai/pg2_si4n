@@ -147,13 +147,16 @@ void Player::AttackCheck()
 			if (attacking == 0) {
 				animation->Play(hAnimation[A_ATT1], false);
 				attacking = 1;
-				reachToEnemy();
 			}
 		}
 		lastAttackKey = true;
 	}
 	else { 
 		lastAttackKey = false;
+	}
+	// 攻撃中の踏み込み
+	if (attacking>0 && animation->GetCurrentFrame()<2.0f) {
+		reachToEnemy();
 	}
 }
 
@@ -164,7 +167,7 @@ void Player::reachToEnemy()
 	VECTOR dist = pGoblin->Position() - position;
 	dist.y = 0;
 	// 視野は、距離２５０以内、３０度以内
-	if (VSize(dist) >= 250.0)
+	if (VSize(dist) >= 500.0)
 		return;
 	// 角度版
 //	float toGoblin = atan2(dist.x, dist.z);
@@ -185,4 +188,7 @@ void Player::reachToEnemy()
 	//Memo Playerの向きは、rotation.y
 	// 30度をラジアンにするには、DegToRad(30.0f)
 	// 入ったので、そちらに近づく
+	rotation.y = atan2(dist.x, dist.z);
+	forward = VGet(0, 0, 1) * MGetRotY(rotation.y);
+	position += forward * 500.0f * Time::DeltaTime();
 }
