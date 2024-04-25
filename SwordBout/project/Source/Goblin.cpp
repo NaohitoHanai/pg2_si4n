@@ -26,18 +26,16 @@ void Goblin::Update()
 #if 1 // 内積バージョン
 		VECTOR forward = VGet(0, 0, 1) * MGetRotY(rotation.y);
 		float targetCos = VDot(VNorm(target), forward);
-		// 正面のベクトルと、targetの長さ１と内積を取る
-		// 内積が、どうなったら？
-		if (targetCos <= cos(DegToRad(3.0f))) {
+		// 正面にいない場合、そちらの方を向く
+		static const float Limit = 5.0f; // 視野（°）
+		if (targetCos <= cos(DegToRad(Limit))) {
 			VECTOR right = VGet(1, 0, 0) * MGetRotY(rotation.y);
-			// 内積( VDot()関数を使って求める )
 			float ip = VDot(target, right);
-			// >0→右回転
 			if (ip >= 0) {
-				rotation.y += DegToRad(3.0f);
+				rotation.y += DegToRad(Limit);
 			}
 			else {
-				rotation.y -= DegToRad(3.0f);
+				rotation.y -= DegToRad(Limit);
 			}
 		}
 #endif
