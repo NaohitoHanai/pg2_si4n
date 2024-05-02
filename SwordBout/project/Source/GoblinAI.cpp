@@ -1,10 +1,13 @@
 #include "GoblinAI.h"
 #include "Goblin.h"
+#include "../Library/GameObject.h"
+#include "Player.h"
+#include "../Library/Time.h"
 
 GoblinAI::GoblinAI(Goblin* p)
 {
     parent = p;
-    rootNode = new Selector();
+    rootNode = new Selector(parent);
 }
 GoblinAI::~GoblinAI()
 {
@@ -27,11 +30,40 @@ bool Node::Update()
 bool GoblinAvoid::NeedEnable()
 {
     // プレイヤーが近くで攻撃したらtrue
+    // ゴブリンの座標
+    Goblin* pObj = dynamic_cast<Goblin*>(object);
+    VECTOR gPos = pObj->Position();
+    // プレイヤーの座標
+    Player* pPl = ObjectManager::FindGameObject<Player>();
+    VECTOR pPos = pPl->Position();
+    if (VSquareSize(gPos - pPos) < 200 * 200) {
+        // プレイヤーが攻撃している
+        if (pPl->Attacking()) {
+            timer = 0;
+            return true;
+        }
+    }
     return false;
 }
 
 bool GoblinAvoid::Update()
 {
+    if (timer == 0) {
+        // ゴブリンの逃げるベクトル
+        // ゴブリンの座標
+        Goblin* pObj = dynamic_cast<Goblin*>(object);
+        VECTOR gPos = pObj->Position();
+        // プレイヤーの座標
+        Player* pPl = ObjectManager::FindGameObject<Player>();
+        VECTOR pPos = pPl->Position();
+        VECTOR AvoidVec = gPos - pPos;
+        //    AvoidVec = AvoidVec * (100.0f / VSize(AvoidVec));
+        AvoidVec = VNorm(AvoidVec) * 100.0f;
+        pObj->AddPosition(AvoidVec);
+    }
+    timer += Time::DeltaTime();
+    if (timer >= 1.0f)
+        return true;
     // よけの行動が終わったらtrue
     return false;
 }
@@ -48,10 +80,10 @@ bool GoblinAttack::Update()
     return false;
 }
 
-Selector::Selector()
+Selector::Selector(GameObject* obj) : Node(obj)
 {
-    children.push_back(new GoblinAvoid());
-    children.push_back(new GoblinAttack());
+    children.push_back(new GoblinAvoid(obj));
+    children.push_back(new GoblinAttack(obj));
     selected = nullptr;
 }
 
@@ -64,6 +96,7 @@ bool Selector::NeedEnable()
             return true;
         }
     }
+    selected = nullptr;
     return false;
 }
 
@@ -74,6 +107,7 @@ bool Selector::Update()
         if (NeedEnable()) {
             return false;
         }
+        selected = nullptr;
         return true;
     }
     return false;

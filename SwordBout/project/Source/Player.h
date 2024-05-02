@@ -13,6 +13,10 @@ public:
 	VECTOR Position() {
 		return position;
 	}
+	bool Attacking() {
+		return attacking;
+	}
+
 private:
 	int hModel;
 

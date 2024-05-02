@@ -31,6 +31,9 @@ public:
 	VECTOR Position() {
 		return position;
 	}
+	void AddPosition(const VECTOR& pos) {
+		position += pos;
+	}
 private:
 	int hModel;
 	VECTOR position;

@@ -1,10 +1,14 @@
 #pragma once
 //GoblinAI.h
 #include <list>
+#include "../Library/GameObject.h"
 class Goblin;
 
 class Node {
 public:
+	Node(GameObject* obj) {
+		object = obj;
+	}
 	/// <summary>
 	/// やりますか？
 	/// </summary>
@@ -18,7 +22,8 @@ public:
 	virtual bool Update();
 protected:
 	std::list<Node*> children; // 自分の下の子
-	Node* parent; // 親のポインター
+	Node* parent; // 親のポインター(ToDo:これは使わない？）
+	GameObject* object;
 };
 
 class GoblinAI {
@@ -33,19 +38,23 @@ private:
 
 class GoblinAvoid : public Node {
 public:
+	GoblinAvoid(GameObject* obj) : Node(obj) {}
 	bool NeedEnable() override;
 	bool Update() override;
+private:
+	float timer;
 };
 
 class GoblinAttack : public Node {
 public:
+	GoblinAttack(GameObject* obj) : Node(obj) {}
 	bool NeedEnable() override;
 	bool Update() override;
 };
 
 class Selector : public Node {
 public:
-	Selector();
+	Selector(GameObject* obj);
 	bool NeedEnable() override;
 	bool Update() override;
 protected:
