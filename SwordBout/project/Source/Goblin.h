@@ -4,6 +4,7 @@
 //                   N.Hanai
 //
 #include "../Library/GameObject.h"
+#include "GoblinAI.h"
 
 /// <summary>
 /// ƒSƒuƒŠƒ“ƒLƒƒƒ‰
@@ -34,4 +35,5 @@ private:
 	int hModel;
 	VECTOR position;
 	VECTOR rotation;
+	GoblinAI* ai;
 };

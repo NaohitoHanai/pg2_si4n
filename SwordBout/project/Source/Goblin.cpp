@@ -11,6 +11,8 @@ Goblin::Goblin()
 
 	position = VGet(0, 100, 300);
 	rotation = VGet(0, 0, 0);
+
+	ai = new GoblinAI(this); // 自分のポインターを渡すと、子から呼べる
 }
 
 Goblin::~Goblin()
@@ -19,11 +21,13 @@ Goblin::~Goblin()
 
 void Goblin::Update()
 {
+	ai->Update();
+
 	Player* pPlayer = ObjectManager::FindGameObject<Player>();
 	if (pPlayer != nullptr) {
 		VECTOR target = pPlayer->Position() - position;
 		target.y = 0.0f;
-#if 1 // 内積バージョン
+#if 0 // 内積バージョン
 		VECTOR forward = VGet(0, 0, 1) * MGetRotY(rotation.y);
 		float targetCos = VDot(VNorm(target), forward);
 		// 正面にいない場合、そちらの方を向く
@@ -39,7 +43,7 @@ void Goblin::Update()
 			}
 		}
 #endif
-#if 0 // 角度バージョン
+#if 1 // 角度バージョン
 		float targetAngle = atan2(target.x, target.z);
 		float diff = targetAngle - rotation.y; // 角度の差を取る
 		// diffを±PIの中に納める
