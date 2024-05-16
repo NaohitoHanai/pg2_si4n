@@ -2,6 +2,7 @@
 #include "Stage.h"
 #include "../Library/Time.h"
 #include "../ImGui/imgui.h"
+#include "Dragon.h"
 
 Player::Player()
 {
@@ -103,6 +104,9 @@ void Player::Update()
 	ImGui::InputFloat("Y", &rotation.y);
 	ImGui::InputFloat("Z", &position.z);
 	ImGui::End();
+
+	if (CheckHitKey(KEY_INPUT_F))
+		Instantiate<Dragon>();
 }
 
 void Player::Draw()
