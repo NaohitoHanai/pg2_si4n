@@ -14,7 +14,7 @@ public:
 		return position;
 	}
 	bool Attacking() {
-		return attacking;
+		return attacking>0;
 	}
 
 private:

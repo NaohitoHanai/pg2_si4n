@@ -12,7 +12,7 @@ Goblin::Goblin()
 	position = VGet(0, 100, 300);
 	rotation = VGet(0, 0, 0);
 
-	ai = new GoblinAI(this); // 自分のポインターを渡すと、子から呼べる
+//	ai = new GoblinAI(this); // 自分のポインターを渡すと、子から呼べる
 }
 
 Goblin::~Goblin()
@@ -21,47 +21,47 @@ Goblin::~Goblin()
 
 void Goblin::Update()
 {
-	ai->Update();
+//	ai->Update();
 
-	Player* pPlayer = ObjectManager::FindGameObject<Player>();
-	if (pPlayer != nullptr) {
-		VECTOR target = pPlayer->Position() - position;
-		target.y = 0.0f;
-#if 0 // 内積バージョン
-		VECTOR forward = VGet(0, 0, 1) * MGetRotY(rotation.y);
-		float targetCos = VDot(VNorm(target), forward);
-		// 正面にいない場合、そちらの方を向く
-		static const float Limit = 5.0f; // 視野（°）
-		if (targetCos <= cos(DegToRad(Limit))) {
-			VECTOR right = VGet(1, 0, 0) * MGetRotY(rotation.y);
-			float ip = VDot(target, right);
-			if (ip >= 0) {
-				rotation.y += DegToRad(Limit);
-			}
-			else {
-				rotation.y -= DegToRad(Limit);
-			}
-		}
-#endif
-#if 1 // 角度バージョン
-		float targetAngle = atan2(target.x, target.z);
-		float diff = targetAngle - rotation.y; // 角度の差を取る
-		// diffを±PIの中に納める
-		while (diff > DX_PI_F) {
-			diff -= DX_PI_F * 2.0f;
-		}
-		while (diff < -DX_PI_F) {
-			diff += DX_PI_F * 2.0f;
-		}
-		if (diff>0)
-			rotation.y += DegToRad(3.0f);
-		if (diff<0)
-			rotation.y -= DegToRad(3.0f);
-#endif
-	}
-
-	VECTOR move = VGet(0, 0, 1) * MGetRotY(rotation.y) * 1.5f;
-	position += move;
+//	Player* pPlayer = ObjectManager::FindGameObject<Player>();
+//	if (pPlayer != nullptr) {
+//		VECTOR target = pPlayer->Position() - position;
+//		target.y = 0.0f;
+//#if 0 // 内積バージョン
+//		VECTOR forward = VGet(0, 0, 1) * MGetRotY(rotation.y);
+//		float targetCos = VDot(VNorm(target), forward);
+//		// 正面にいない場合、そちらの方を向く
+//		static const float Limit = 5.0f; // 視野（°）
+//		if (targetCos <= cos(DegToRad(Limit))) {
+//			VECTOR right = VGet(1, 0, 0) * MGetRotY(rotation.y);
+//			float ip = VDot(target, right);
+//			if (ip >= 0) {
+//				rotation.y += DegToRad(Limit);
+//			}
+//			else {
+//				rotation.y -= DegToRad(Limit);
+//			}
+//		}
+//#endif
+//#if 1 // 角度バージョン
+//		float targetAngle = atan2(target.x, target.z);
+//		float diff = targetAngle - rotation.y; // 角度の差を取る
+//		// diffを±PIの中に納める
+//		while (diff > DX_PI_F) {
+//			diff -= DX_PI_F * 2.0f;
+//		}
+//		while (diff < -DX_PI_F) {
+//			diff += DX_PI_F * 2.0f;
+//		}
+//		if (diff>0)
+//			rotation.y += DegToRad(3.0f);
+//		if (diff<0)
+//			rotation.y -= DegToRad(3.0f);
+//#endif
+//	}
+//
+//	VECTOR move = VGet(0, 0, 1) * MGetRotY(rotation.y) * 1.5f;
+//	position += move;
 
 	// 地面に立たせる
 	Stage* pStage = ObjectManager::FindGameObject<Stage>();
@@ -70,7 +70,7 @@ void Goblin::Update()
 		VECTOR hit;
 		if (pStage->CollLine(position + VGet(0, 500, 0), position + VGet(0, -500, 0), &hit))
 		{
-			position = hit;
+//			position = hit;
 		}
 	}
 }
@@ -103,7 +103,7 @@ bool Goblin::PlayerAttack(VECTOR playerPos, VECTOR weaponLine1, VECTOR weaponLin
 		VECTOR addVec = position - playerPos;
 		addVec.y = 0;
 		addVec = VNorm(addVec) * 50.0f;
-		position += addVec;
+//		position += addVec;
 	}
 	// ４本線のために、線情報を保存する
 	lastLine1 = weaponLine1;

@@ -9,7 +9,10 @@ public:
 	Node(GameObject* obj) {
 		object = obj;
 	}
-	/// <summary>
+
+	~Node();
+
+	/// 	/// <summary>
 	/// ‚â‚è‚Ü‚·‚©H
 	/// </summary>
 	/// <returns>‚â‚éğŒ‚Ìê‡‚Ítrue</returns>
@@ -50,6 +53,8 @@ public:
 	GoblinAttack(GameObject* obj) : Node(obj) {}
 	bool NeedEnable() override;
 	bool Update() override;
+private:
+	float timer;
 };
 
 class Selector : public Node {
@@ -59,4 +64,13 @@ public:
 	bool Update() override;
 protected:
 	Node* selected;
+};
+
+class Sequencer : public Node {
+public:
+	Sequencer(GameObject* obj);
+	bool NeedEnable() override;
+	bool Update() override;
+protected:
+	std::list<Node*>::iterator itr;
 };
