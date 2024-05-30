@@ -57,4 +57,6 @@ private:
 
 	bool CheckJumpKey();
 	void reachToEnemy();
+
+	bool lockOn;
 };

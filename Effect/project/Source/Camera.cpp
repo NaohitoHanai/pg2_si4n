@@ -36,11 +36,14 @@ void Camera::Update()
 	v.y = 0;
 	v = VNorm(v) * 330.0f;
 	v.y = 300.0f - 100.0f;
-	VECTOR center = pPos + VGet(0, 100, 0);
+	VECTOR center = pPos + VGet(0, 100, 0); // プレイヤーキャラの心臓
 	MATRIX mRot = MGetRotX(rotation.x) * MGetRotY(rotation.y);
-	position = center + v * mRot;
+	position = center + v * mRot; // カメラ座標
 	VECTOR lk = pLook - center;
-	target = center + lk * mRot;
+	target = center + lk * mRot; // 注視点
+	direction = target - position;
+	direction.y = 0;
+	direction = VNorm(direction);
 }
 
 void Camera::Draw()

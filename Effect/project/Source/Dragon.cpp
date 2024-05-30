@@ -14,7 +14,7 @@ Dragon::~Dragon()
 void Dragon::Update()
 {
 	if (timer > 0.0f) {
-		timer -= Time::DeltaTime();
+//		timer -= Time::DeltaTime();
 		for (int i = 0; i < 2; i++) {
 			Fire* fire = new Fire();
 			fires.push_back(fire); // ‚±‚ê‚ª’Ç‰Á

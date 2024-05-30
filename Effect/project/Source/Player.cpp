@@ -3,6 +3,7 @@
 #include "../Library/Time.h"
 #include "../ImGui/imgui.h"
 #include "Dragon.h"
+#include "Camera.h"
 
 Player::Player()
 {
@@ -27,9 +28,10 @@ Player::Player()
 	animation->SetModel(hModel); // アニメーションを付けるモデル
 	animation->Play(hAnimation[A_STOP], true);
 
-	position = VGet(0, 0, 0);
+	position = VGet(0, 0, -500);
 	rotation = VGet(0, 0, 0);
-	lookTarget = VGet(0, 100, 500);
+	lookTarget = VGet(0, 100, 0);
+	lockOn = true;
 
 	//仮に、ここに書いておく
 	SetCameraPositionAndTarget_UpVecY(VGet(0, 300, -500), VGet(0, 0, 0));
@@ -50,32 +52,41 @@ void Player::Update()
 	animation->Update();
 
 	if (attacking == 0) {
-		if (CheckHitKey(KEY_INPUT_W))
-		{
-			//position.z += cosf(rotation.y) * 2.0f;
-			//position.x += sinf(rotation.y) * 2.0f;
-
-			MATRIX rotY = MGetRotY(rotation.y); // 回転行列を作る
-			VECTOR move = VGet(0, 0, 2);  // 回転してない時の移動ベクトル
-			VECTOR forward = move * rotY; // 回転行列を掛けるとforward
-			position += forward;
-			// Unityっぽく書くなら
-			//MATRIX rotY = MGetRotY(rotation.y); // 回転行列を作る
-			//VECTOR move = VGet(0, 0, 1);  // 回転してない時の長さ１のベクトル
-			//VECTOR forward = move * rotY; // 回転行列を掛けるとforward
-			//position += forward * 2.0f; // ここで速度を掛ける
+		// WASDのキーから、入力方向のベクトルを作る
+		VECTOR input = VGet(0, 0, 0);
+		if (CheckHitKey(KEY_INPUT_W)) {
+			input.z += 1.0f;
+		}
+		if (CheckHitKey(KEY_INPUT_S)) {
+			input.z += -1.0f;
+		}
+		if (CheckHitKey(KEY_INPUT_D)) {
+			input.x += 1.0f;
+		}
+		if (CheckHitKey(KEY_INPUT_A)) {
+			input.x += -1.0f;
+		}
+		float inputRot = atan2(input.x, input.z);
+		if (input.x!=0 || input.z!=0) {
+			Camera* cam = ObjectManager::FindGameObject<Camera>();
+			VECTOR dir = cam->Direction();
+			VECTOR moveVec = dir * 5.0f * MGetRotY(inputRot);
+			position += moveVec;
+			if (lockOn == false) {
+				lookTarget += moveVec;
+			}
+			float rotateTarget = atan2(moveVec.x, moveVec.z);
+			//rotation.yをrotateTargetに近づける
+			//rotation.y = atan2(moveVec.x, moveVec.z);
+			// 角度で補間する場合、
+			// ①角度差を求める
+			// ②その値をーπ～πの中に収める
+			// ③角度差が一定角度(π/4）以内であれば、rotation.y=rotateTarget
+			// ④値が＋であれば右回転、値が－であれば左回転でπ/4動かす
 			animation->Play(hAnimation[A_RUN], true);
 		}
 		else {
 			animation->Play(hAnimation[A_STOP], true);
-		}
-		if (CheckHitKey(KEY_INPUT_D))
-		{
-			rotation.y += 3.0f * DX_PI_F / 180.0f;
-		}
-		if (CheckHitKey(KEY_INPUT_A))
-		{
-			rotation.y -= 3.0f * DX_PI_F / 180.0f;
 		}
 	}
 	else {
