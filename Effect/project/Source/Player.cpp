@@ -29,6 +29,7 @@ Player::Player()
 
 	position = VGet(0, 0, 0);
 	rotation = VGet(0, 0, 0);
+	lookTarget = VGet(0, 100, 500);
 
 	//âºÇ…ÅAÇ±Ç±Ç…èëÇ¢ÇƒÇ®Ç≠
 	SetCameraPositionAndTarget_UpVecY(VGet(0, 300, -500), VGet(0, 0, 0));
@@ -94,9 +95,9 @@ void Player::Update()
 		}
 	}
 //	VECTOR cameraPos = VGet(0, 300, -500) * MGetRotY(rotation.y) + position;
-	VECTOR cameraPos = 
-		VGet(0, 300, -500) * MGetRotY(rotation.y) * MGetTranslate(position);
-	SetCameraPositionAndTarget_UpVecY( cameraPos, position );
+//	VECTOR cameraPos = 
+//		VGet(0, 300, -500) * MGetRotY(rotation.y) * MGetTranslate(position);
+//	SetCameraPositionAndTarget_UpVecY( cameraPos, position );
 
 //ïœêîÇå©ÇΩÇ¢ÇÃÇ≈
 	ImGui::Begin("Player");

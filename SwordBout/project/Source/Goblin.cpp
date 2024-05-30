@@ -87,7 +87,8 @@ VECTOR lastLine2;
 
 bool Goblin::PlayerAttack(VECTOR playerPos, VECTOR weaponLine1, VECTOR weaponLine2)
 {
-	// ４本の線で当たっているか調べる
+	// ４本の線で当た
+	// っているか調べる
 	bool hit = false;
 	for (int i = 1; i <= 4; i++) {
 		VECTOR p1 = (weaponLine1 - lastLine1) * (i / 4.0f) + lastLine1;
@@ -105,6 +106,7 @@ bool Goblin::PlayerAttack(VECTOR playerPos, VECTOR weaponLine1, VECTOR weaponLin
 		addVec = VNorm(addVec) * 50.0f;
 //		position += addVec;
 	}
+	
 	// ４本線のために、線情報を保存する
 	lastLine1 = weaponLine1;
 	lastLine2 = weaponLine2;

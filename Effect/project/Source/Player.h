@@ -17,6 +17,10 @@ public:
 		return attacking>0;
 	}
 
+	VECTOR LookTarget() {
+		return lookTarget;
+	}
+
 private:
 	int hModel;
 
@@ -26,6 +30,9 @@ private:
 	VECTOR position;
 	VECTOR rotation;
 	VECTOR jumpVelocity; // ジャンプベクトル
+
+	VECTOR lookTarget; // 注視点（ロックオンの場所）
+
 	bool landing;
 
 	Animation* animation;

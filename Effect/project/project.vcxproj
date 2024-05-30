@@ -155,6 +155,7 @@
     <ClInclude Include="Source\animation.h" />
     <ClInclude Include="Source\Axis.h" />
     <ClInclude Include="Source\BootScene.h" />
+    <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Dragon.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Screen.h" />
@@ -182,6 +183,7 @@
     <ClCompile Include="Source\animation.cpp" />
     <ClCompile Include="Source\Axis.cpp" />
     <ClCompile Include="Source\BootScene.cpp" />
+    <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\DebugScreen.cpp" />
     <ClCompile Include="Source\Dragon.cpp" />
     <ClCompile Include="Source\Player.cpp" />

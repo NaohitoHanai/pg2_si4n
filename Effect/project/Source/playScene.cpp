@@ -7,12 +7,15 @@
 #include "Player.h"
 #include "Axis.h"
 #include "Stage.h"
+#include "Camera.h"
 
 PlayScene::PlayScene()
 {
 	Instantiate<Axis>();
 	Instantiate<Player>();
 	Instantiate<Stage>();
+	Camera* cam = Instantiate<Camera>();
+	cam->SetDrawOrder(100);
 }
 
 PlayScene::~PlayScene()
