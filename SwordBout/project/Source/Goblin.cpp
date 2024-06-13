@@ -9,10 +9,15 @@ Goblin::Goblin()
 	int root = MV1SearchFrame(hModel, "root");
 	MV1SetFrameUserLocalMatrix(hModel, root, MGetRotY(DX_PI_F));
 
+	animation = new Animation();
+	animation->SetModel(hModel);
+	hAnim[WAIT] = MV1LoadModel("data/Character/Goblin/Anim_Neutral.mv1");
+	hAnim[DAMAGE] = MV1LoadModel("data/Character/Goblin/Anim_Damage.mv1");
 	position = VGet(0, 100, 300);
 	rotation = VGet(0, 0, 0);
 
-//	ai = new GoblinAI(this); // 自分のポインターを渡すと、子から呼べる
+	state = sWAIT;
+	animation->Play(hAnim[WAIT]);
 }
 
 Goblin::~Goblin()
@@ -21,8 +26,14 @@ Goblin::~Goblin()
 
 void Goblin::Update()
 {
+	animation->Update();
 //	ai->Update();
-
+	if (state == sDAMAGE) {
+		if (animation->IsEnd()) {
+			animation->Play(hAnim[WAIT]);
+			state = sWAIT;
+		}
+	}
 //	Player* pPlayer = ObjectManager::FindGameObject<Player>();
 //	if (pPlayer != nullptr) {
 //		VECTOR target = pPlayer->Position() - position;
@@ -104,7 +115,8 @@ bool Goblin::PlayerAttack(VECTOR playerPos, VECTOR weaponLine1, VECTOR weaponLin
 		VECTOR addVec = position - playerPos;
 		addVec.y = 0;
 		addVec = VNorm(addVec) * 50.0f;
-//		position += addVec;
+		state = sDAMAGE;
+		animation->Play(hAnim[DAMAGE], false);
 	}
 	
 	// ４本線のために、線情報を保存する

@@ -5,6 +5,7 @@
 //
 #include "../Library/GameObject.h"
 #include "GoblinAI.h"
+#include "animation.h"
 
 /// <summary>
 /// ƒSƒuƒŠƒ“ƒLƒƒƒ‰
@@ -35,8 +36,20 @@ public:
 		position += pos;
 	}
 private:
+	enum ANIM_ID {
+		WAIT = 0,
+		DAMAGE,
+		MAX
+	};
+	ANIM_ID animID;
+	enum State {
+		sWAIT = 0,
+		sDAMAGE,
+	};
+	State state;
 	int hModel;
+	Animation* animation;
+	int hAnim[MAX];
 	VECTOR position;
 	VECTOR rotation;
-	GoblinAI* ai;
 };
