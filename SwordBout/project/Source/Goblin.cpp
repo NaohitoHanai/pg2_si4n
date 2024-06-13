@@ -26,6 +26,11 @@ Goblin::~Goblin()
 
 void Goblin::Update()
 {
+	switch (message.PopMessage()) {
+	case ADD_DAMAGE:
+		addDamage();
+		break;
+	}
 	animation->Update();
 //	ai->Update();
 	if (state == sDAMAGE) {
@@ -110,17 +115,15 @@ bool Goblin::PlayerAttack(VECTOR playerPos, VECTOR weaponLine1, VECTOR weaponLin
 			hit = true;
 		}
 	}
-	// 当たったのでノックバック
-	if (hit) {
-		VECTOR addVec = position - playerPos;
-		addVec.y = 0;
-		addVec = VNorm(addVec) * 50.0f;
-		state = sDAMAGE;
-		animation->Play(hAnim[DAMAGE], false);
-	}
 	
 	// ４本線のために、線情報を保存する
 	lastLine1 = weaponLine1;
 	lastLine2 = weaponLine2;
 	return hit;
+}
+
+void Goblin::addDamage()
+{
+	state = sDAMAGE;
+	animation->Play(hAnim[DAMAGE], false);
 }

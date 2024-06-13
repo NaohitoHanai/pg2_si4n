@@ -8,9 +8,12 @@
 #include <string>
 #include "SceneBase.h"
 #include "ObjectManager.h"
+#include "../Source/MessageQueue.h"
 
 class GameObject {
 public:
+	MessageQueue message;
+
 	GameObject() : pParent(nullptr), tag("") { ObjectManager::Push(this); }
 	GameObject(GameObject* object) : pParent(object), tag("") { ObjectManager::Push(this); }
 	virtual ~GameObject() {}

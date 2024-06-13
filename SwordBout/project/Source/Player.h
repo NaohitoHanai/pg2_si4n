@@ -47,6 +47,7 @@ private:
 	// ３段攻撃を追加（アニメーションが３つ増えます）
 	struct TimeInfo {
 		float time;
+		bool used;
 		std::string command;
 		std::string filename;
 	};
@@ -56,6 +57,8 @@ private:
 		// アニメーションのタイムライン
 	};
 	AnimInfo info[MAX];
+	bool canAttack; // 攻撃可能
+	bool canCancel; // キャンセル可能
 
 	int attacking; // 攻撃してれば>0、攻撃してないときは0
 

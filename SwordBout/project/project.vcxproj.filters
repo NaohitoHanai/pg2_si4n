@@ -77,6 +77,9 @@
     <ClCompile Include="Source\csvReader.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MessageQueue.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -164,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="Source\csvReader.h">
       <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MessageQueue.h">
+      <Filter>Library</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

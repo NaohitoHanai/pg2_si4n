@@ -111,10 +111,17 @@ void Player::Update()
 
 	// UŒ‚”»’è
 	if (attacking > 0) {
-		VECTOR p1 = VGet(0, 0, 0) * mWeapon;
-		VECTOR p2 = VGet(0, -200, 0) * mWeapon;
-		Goblin* pGoblin = ObjectManager::FindGameObject<Goblin>();
-		pGoblin->PlayerAttack(position, p1, p2);
+		if (canAttack) {
+			VECTOR p1 = VGet(0, 0, 0) * mWeapon;
+			VECTOR p2 = VGet(0, -200, 0) * mWeapon;
+			Goblin* pGoblin = ObjectManager::FindGameObject<Goblin>();
+			if (pGoblin->PlayerAttack(position, p1, p2)) {
+				MessageQueue::Param p;
+				p.intVal = 10;
+				pGoblin->message.ReceiveMessage(
+								Goblin::ADD_DAMAGE, p);
+			}
+		}
 	}
 
 //•Ï”‚ðŒ©‚½‚¢‚Ì‚Å
@@ -145,6 +152,8 @@ void Player::setAnimation(ANIM_ID id, bool loop)
 {
 	animation->Play(info[id].hAnim, loop);
 	animID = id;
+	canAttack = false;
+	canCancel = false;
 }
 
 void Player::playAnimation()
@@ -155,7 +164,7 @@ void Player::playAnimation()
 
 	std::string folder = "data/sound/SE/";
 	for (TimeInfo t : info[animID].timeline) {
-		if (t.time == curFrame) {
+		if (t.time > prevFrame && t.time <= curFrame) {
 			if (t.command == "SE") {
 				PlaySound(
 					(folder + t.filename + "_00.wav").c_str(),
@@ -164,6 +173,15 @@ void Player::playAnimation()
 			else if (t.command == "MatSE") {
 				PlaySound((folder + t.filename + "_stone_00.wav")
 					.c_str(), DX_PLAYTYPE_BACK);
+			}
+			else if (t.command == "AttackStart") {
+				canAttack = true;
+			}
+			else if (t.command == "AttackEnd") {
+				canAttack = false;
+			}
+			else if (t.command == "Cancel") {
+				canCancel = true;
 			}
 		}
 	}
@@ -175,11 +193,11 @@ void Player::AttackCheck()
 	if (CheckHitKey(KEY_INPUT_M)) {
 		if (!lastAttackKey) {  //‰Ÿ‚µ‚½uŠÔ
 			//‚P’iUŒ‚UŒ‚’†‚ÅAanimation‚ÌƒtƒŒ[ƒ€‚ª8‚ð’´‚¦‚½‚ç‚Q’i–Ú‚É‚·‚é
-			if (attacking == 1 && animation->GetCurrentFrame() >= 8.5f) {
+			if (attacking == 1 && canCancel) {
 				setAnimation(A_ATT2, false);
 				attacking = 2;
 			}
-			if (attacking == 2 && animation->GetCurrentFrame() >= 8.5f) {
+			if (attacking == 2 && canCancel) {
 				setAnimation(A_ATT3, false);
 				attacking = 3;
 			}

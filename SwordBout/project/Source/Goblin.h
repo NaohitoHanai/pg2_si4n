@@ -52,4 +52,11 @@ private:
 	int hAnim[MAX];
 	VECTOR position;
 	VECTOR rotation;
+
+public:
+	enum Message {
+		ADD_DAMAGE = 1,
+	};
+private:
+	void addDamage();
 };
