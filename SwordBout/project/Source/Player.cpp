@@ -3,6 +3,7 @@
 #include "Goblin.h"
 #include "../Library/Time.h"
 #include "../ImGui/imgui.h"
+#include "csvReader.h"
 
 Player::Player()
 {
@@ -21,11 +22,21 @@ Player::Player()
 		"Anim_Attack3",
 	};
 	for (int a = 0; a < MAX; a++) {
-		hAnimation[a] = MV1LoadModel((folder + filename[a]+".mv1").c_str());
+		info[a].hAnim = MV1LoadModel((folder + filename[a]+".mv1").c_str());
+		// csv‚ð“Ç‚ñ‚Åtimeline‚ðì‚é
+		CsvReader* csv = new CsvReader(folder + filename[a] + ".csv");
+		for (int ln = 0; ln < csv->GetLines(); ln++) {
+			TimeInfo ti;
+			ti.time = csv->GetFloat(ln, 0);
+			ti.command = csv->GetString(ln, 1);
+			ti.filename = csv->GetString(ln, 2);
+			info[a].timeline.push_back(ti);
+		}
+		delete csv;
 	}
 	animation = new Animation();
 	animation->SetModel(hModel); // ƒAƒjƒ[ƒVƒ‡ƒ“‚ð•t‚¯‚éƒ‚ƒfƒ‹
-	animation->Play(hAnimation[A_STOP], true);
+	setAnimation(A_STOP, true);
 
 	position = VGet(0, 0, 0);
 	rotation = VGet(0, 0, 0);
@@ -46,7 +57,7 @@ void Player::Start()
 
 void Player::Update()
 {
-	animation->Update();
+	playAnimation();
 
 	if (attacking == 0) {
 		if (CheckHitKey(KEY_INPUT_W))
@@ -63,10 +74,10 @@ void Player::Update()
 			//VECTOR move = VGet(0, 0, 1);  // ‰ñ“]‚µ‚Ä‚È‚¢Žž‚Ì’·‚³‚P‚ÌƒxƒNƒgƒ‹
 			//VECTOR forward = move * rotY; // ‰ñ“]s—ñ‚ðŠ|‚¯‚é‚Æforward
 			//position += forward * 2.0f; // ‚±‚±‚Å‘¬“x‚ðŠ|‚¯‚é
-			animation->Play(hAnimation[A_RUN], true);
+			setAnimation(A_RUN, true);
 		}
 		else {
-			animation->Play(hAnimation[A_STOP], true);
+			setAnimation(A_STOP, true);
 		}
 		if (CheckHitKey(KEY_INPUT_D))
 		{
@@ -130,6 +141,34 @@ void Player::Draw()
 	DrawLine3D(p1, p2, GetColor(255, 0, 0));
 }
 
+void Player::setAnimation(ANIM_ID id, bool loop)
+{
+	animation->Play(info[id].hAnim, loop);
+	animID = id;
+}
+
+void Player::playAnimation()
+{
+	float prevFrame = animation->GetCurrentFrame();
+	animation->Update();
+	float curFrame = animation->GetCurrentFrame();
+
+	std::string folder = "data/sound/SE/";
+	for (TimeInfo t : info[animID].timeline) {
+		if (t.time == curFrame) {
+			if (t.command == "SE") {
+				PlaySound(
+					(folder + t.filename + "_00.wav").c_str(),
+					DX_PLAYTYPE_BACK);
+			}
+			else if (t.command == "MatSE") {
+				PlaySound((folder + t.filename + "_stone_00.wav")
+					.c_str(), DX_PLAYTYPE_BACK);
+			}
+		}
+	}
+}
+
 void Player::AttackCheck()
 {
 	// ‚±‚±‚ÅUŒ‚“ü—Í”»’è‚µ‚ÄAUŒ‚ƒ‚[ƒVƒ‡ƒ“‚ðÄ¶‚·‚é
@@ -137,15 +176,15 @@ void Player::AttackCheck()
 		if (!lastAttackKey) {  //‰Ÿ‚µ‚½uŠÔ
 			//‚P’iUŒ‚UŒ‚’†‚ÅAanimation‚ÌƒtƒŒ[ƒ€‚ª8‚ð’´‚¦‚½‚ç‚Q’i–Ú‚É‚·‚é
 			if (attacking == 1 && animation->GetCurrentFrame() >= 8.5f) {
-				animation->Play(hAnimation[A_ATT2], false);
+				setAnimation(A_ATT2, false);
 				attacking = 2;
 			}
 			if (attacking == 2 && animation->GetCurrentFrame() >= 8.5f) {
-				animation->Play(hAnimation[A_ATT3], false);
+				setAnimation(A_ATT3, false);
 				attacking = 3;
 			}
 			if (attacking == 0) {
-				animation->Play(hAnimation[A_ATT1], false);
+				setAnimation(A_ATT1, false);
 				attacking = 1;
 			}
 		}
