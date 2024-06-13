@@ -74,6 +74,7 @@
     <ClCompile Include="Source\Camera.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\SkyDoom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -157,6 +158,9 @@
       <Filter>PlayScene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SkyDoom.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
   </ItemGroup>

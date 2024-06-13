@@ -1,4 +1,5 @@
 #include "Stage.h"
+#include "Camera.h"
 
 Stage::Stage()
 {
@@ -22,7 +23,7 @@ void Stage::Draw()
 	MV1DrawModel(hModel);
 }
 
-bool Stage::CollLine(VECTOR p1, VECTOR p2, VECTOR* hitPos)
+bool Stage::CollLine(VECTOR p1, VECTOR p2, VECTOR* hitPos) const
 {
 	MV1_COLL_RESULT_POLY res =
 		MV1CollCheck_Line(hModel, -1, p1, p2);

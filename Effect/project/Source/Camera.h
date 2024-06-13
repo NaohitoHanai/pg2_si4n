@@ -7,8 +7,11 @@ public:
 	~Camera();
 	void Update() override;
 	void Draw() override;
-	VECTOR Direction() {
+	const VECTOR& Direction() const {
 		return direction;
+	}
+	const VECTOR& Position() const {
+		return position;
 	}
 private:
 	VECTOR position; // ÉJÉÅÉâç¿ïW

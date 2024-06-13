@@ -31,7 +31,7 @@ Player::Player()
 	position = VGet(0, 0, -500);
 	rotation = VGet(0, 0, 0);
 	lookTarget = VGet(0, 100, 0);
-	lockOn = true;
+	lockOn = false;
 
 	//‰¼‚ÉA‚±‚±‚É‘‚¢‚Ä‚¨‚­
 	SetCameraPositionAndTarget_UpVecY(VGet(0, 300, -500), VGet(0, 0, 0));
@@ -80,9 +80,26 @@ void Player::Update()
 			//rotation.y = atan2(moveVec.x, moveVec.z);
 			// Šp“x‚Å•âŠÔ‚·‚éê‡A
 			// ‡@Šp“x·‚ð‹‚ß‚é
+			float diff = rotateTarget - rotation.y;
 			// ‡A‚»‚Ì’l‚ð[ƒÎ`ƒÎ‚Ì’†‚ÉŽû‚ß‚é
+			while (diff > DX_PI )
+				diff -= DX_PI * 2.0f;
+			while (diff < -DX_PI)
+				diff += DX_PI * 2.0f;
 			// ‡BŠp“x·‚ªˆê’èŠp“x(ƒÎ/4jˆÈ“à‚Å‚ ‚ê‚ÎArotation.y=rotateTarget
-			// ‡C’l‚ª{‚Å‚ ‚ê‚Î‰E‰ñ“]A’l‚ª|‚Å‚ ‚ê‚Î¶‰ñ“]‚ÅƒÎ/4“®‚©‚·
+			float limit = DX_PI / 16.0f;
+			if (diff < limit && diff > -limit) {
+				rotation.y = rotateTarget;
+			}
+			else {
+				// ‡C’l‚ª{‚Å‚ ‚ê‚Î‰E‰ñ“]A’l‚ª|‚Å‚ ‚ê‚Î¶‰ñ“]‚ÅƒÎ/4“®‚©‚·
+				if (diff > 0) {
+					rotation.y += limit;
+				}
+				else {
+					rotation.y -= limit;
+				}
+			}
 			animation->Play(hAnimation[A_RUN], true);
 		}
 		else {

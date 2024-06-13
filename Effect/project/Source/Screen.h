@@ -10,3 +10,5 @@ namespace Screen {
 	static const char* WINDOW_NAME = "project";
 	static const float WINDOW_EXTEND = 1.0f;
 };
+
+

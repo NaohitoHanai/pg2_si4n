@@ -1,16 +1,14 @@
 #pragma once
 #include "../Library/GameObject.h"
 
-class Stage : public GameObject
+class SkyDoom : public GameObject
 {
 public:
-	Stage();
-	~Stage();
+	SkyDoom();
+	~SkyDoom();
 	void Update() override;
 	void Draw() override;
-	bool CollLine(VECTOR p1, VECTOR p2, VECTOR* hitPos=nullptr) const;
 private:
 	int hModel;
 	VECTOR position;
-	VECTOR rotation;
 };
