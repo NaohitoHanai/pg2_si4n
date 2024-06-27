@@ -66,7 +66,7 @@ void Player::Update()
 			//position.x += sinf(rotation.y) * 2.0f;
 
 			MATRIX rotY = MGetRotY(rotation.y); // 回転行列を作る
-			VECTOR move = VGet(0, 0, 2);  // 回転してない時の移動ベクトル
+			VECTOR move = VGet(0, 0, 10);  // 回転してない時の移動ベクトル
 			VECTOR forward = move * rotY; // 回転行列を掛けるとforward
 			position += forward;
 			// Unityっぽく書くなら

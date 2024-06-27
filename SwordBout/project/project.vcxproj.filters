@@ -80,6 +80,9 @@
     <ClCompile Include="Source\MessageQueue.cpp">
       <Filter>Library</Filter>
     </ClCompile>
+    <ClCompile Include="Source\StageObj.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -170,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="Source\MessageQueue.h">
       <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StageObj.h">
+      <Filter>PlayScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

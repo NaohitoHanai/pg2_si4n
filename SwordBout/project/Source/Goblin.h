@@ -17,6 +17,9 @@ public:
 	~Goblin();
 	void Update() override;
 	void Draw() override;
+	void SetPosition(float x, float y, float z) {
+		position = VGet(x, y, z);
+	}
 
 	/// <summary>
 	/// ƒvƒŒƒCƒ„[‚©‚ç‚ÌUŒ‚‚ğó‚¯‚é
