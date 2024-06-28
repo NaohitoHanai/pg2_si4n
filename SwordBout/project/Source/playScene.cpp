@@ -10,6 +10,7 @@
 #include "Stage.h"
 #include "StageObj.h"
 #include "csvReader.h"
+#include "Savedata.h"
 
 PlayScene::PlayScene()
 {
@@ -55,6 +56,10 @@ void PlayScene::Update()
 {
 	if (CheckHitKey(KEY_INPUT_T)) {
 		SceneManager::ChangeScene("TitleScene");
+	}
+	if (CheckHitKey(KEY_INPUT_5)) {
+		Savedata* pSave = Instantiate<Savedata>();
+		pSave->Save();
 	}
 }
 

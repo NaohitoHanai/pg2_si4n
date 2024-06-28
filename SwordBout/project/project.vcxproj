@@ -160,6 +160,7 @@
     <ClInclude Include="Source\GoblinAI.h" />
     <ClInclude Include="Source\MessageQueue.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\Savedata.h" />
     <ClInclude Include="Source\Screen.h" />
     <ClInclude Include="Source\DebugScreen.h" />
     <ClInclude Include="Source\PlayScene.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="Source\MessageQueue.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayScene.cpp" />
+    <ClCompile Include="Source\Savedata.cpp" />
     <ClCompile Include="Source\SceneFactory.cpp" />
     <ClCompile Include="Source\Stage.cpp" />
     <ClCompile Include="Source\StageObj.cpp" />

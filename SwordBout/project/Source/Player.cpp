@@ -105,9 +105,9 @@ void Player::Update()
 		}
 	}
 //	VECTOR cameraPos = VGet(0, 300, -500) * MGetRotY(rotation.y) + position;
-	VECTOR cameraPos = 
+	cameraPosition = 
 		VGet(0, 300, -500) * MGetRotY(rotation.y) * MGetTranslate(position);
-	SetCameraPositionAndTarget_UpVecY( cameraPos, position );
+	SetCameraPositionAndTarget_UpVecY( cameraPosition, position );
 
 	// UŒ‚”»’è
 	if (attacking > 0) {

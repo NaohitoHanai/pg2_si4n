@@ -62,4 +62,6 @@ public:
 	};
 private:
 	void addDamage();
+
+	int voiceTime;
 };

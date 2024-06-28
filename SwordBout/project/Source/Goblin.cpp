@@ -18,6 +18,8 @@ Goblin::Goblin()
 
 	state = sWAIT;
 	animation->Play(hAnim[WAIT]);
+
+	voiceTime = 0;
 }
 
 Goblin::~Goblin()
@@ -26,6 +28,29 @@ Goblin::~Goblin()
 
 void Goblin::Update()
 {
+	voiceTime--;
+	if (voiceTime <= 0) {
+		Player* pPlayer = ObjectManager::FindGameObject<Player>();
+		VECTOR camPos = pPlayer->CameraPosition(); // カメラ座標
+		float distance = VSize(camPos - position); // 距離
+		int volume = (distance - 600) * (-255) / 1400;
+		if (volume > 255)
+			volume = 255;
+
+		VECTOR camVec = pPlayer->Position() - camPos; // カメラの正面ベクトル
+		camVec.y = 0;
+		VECTOR camRight = VNorm(camVec) * MGetRotY(DX_PI / 2.0f);
+		VECTOR myVec = VNorm(position - camPos);
+		int pan = VDot(camRight, myVec) * 255.0f; // 計算する
+		if (volume > 0) {
+			int hSound = LoadSoundMem("data/sound/SE/Goblin/VO_dead_00.wav");
+			PlaySoundMem(hSound, DX_PLAYTYPE_BACK);
+			ChangeVolumeSoundMem(volume, hSound); // 0で無音、255で最大
+			ChangePanSoundMem(pan, hSound); // -255で左、255で右
+		}
+		voiceTime = GetRand(120) + 120;
+	}
+
 	switch (message.PopMessage()) {
 	case ADD_DAMAGE:
 		addDamage();

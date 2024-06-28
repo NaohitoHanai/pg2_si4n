@@ -17,8 +17,13 @@ public:
 	bool Attacking() {
 		return attacking>0;
 	}
+	VECTOR CameraPosition() {
+		return cameraPosition;
+	}
 
 private:
+	VECTOR cameraPosition;
+
 	enum ANIM_ID {
 		A_STOP = 0,
 		A_RUN,
