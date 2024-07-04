@@ -25,6 +25,13 @@ void writeData(std::vector<char>& dev, char* data, int size)
 	}
 }
 
+void readData(char*& p, char* data, int size)
+{
+	for (int i = 0; i < size; i++) {
+		data[i] = *p++;
+	}
+}
+
 void Savedata::Save()
 {
 	// セーブデータの前につけるデータ
@@ -41,17 +48,22 @@ void Savedata::Save()
 	// プレイヤーとゴブリンの座標を保存する
 	Player* pPlayer = ObjectManager::FindGameObject<Player>();
 	VECTOR pPos = pPlayer->Position();
-//	fs.write((char*)&pPos, sizeof(VECTOR));
+	//	fs.write((char*)&pPos, sizeof(VECTOR));
 	writeData(savedata, (char*)&pPos, sizeof(VECTOR));
 
 	std::list<Goblin*> goblins = ObjectManager::FindGameObjects<Goblin>();
 	int size = goblins.size();
-//	fs.write((char*)&size, sizeof(int));
+	//	fs.write((char*)&size, sizeof(int));
 	writeData(savedata, (char*)&size, sizeof(int));
 	for (Goblin* g : goblins) {
 		VECTOR gPos = g->Position();
-//		fs.write((char*)&gPos, sizeof(VECTOR));
+		//		fs.write((char*)&gPos, sizeof(VECTOR));
 		writeData(savedata, (char*)&gPos, sizeof(VECTOR));
+	}
+
+	// ここで暗号化
+	for (auto& c : savedata) {
+		c = c + 1;
 	}
 
 	SaveHeader header;
@@ -74,15 +86,60 @@ void Savedata::Save()
 void Savedata::Load()
 {
 	std::ifstream fs("save.dat", std::ios::binary);
+	SaveHeader header;
+	fs.read((char*)&header, sizeof(SaveHeader));
+	if (strncmp(header.chunk, "HANA", 4) != 0) {
+		MessageBox(nullptr, "このゲームのデータではありません",
+			"エラー", MB_OK);
+		fs.close();
+		return;
+	}
+	fs.seekg(0, std::ios_base::_Seekend); // 一番最後にする
+	int filesize = fs.tellg(); // ファイルのサイズ
+	if (filesize != sizeof(header) + header.size) {
+		//ToDo filesizeがheader.sizeと合っているか、あってなければエラー終了
+		MessageBox(nullptr, "データが破損していました",
+			"エラー", MB_OK);
+		fs.close();
+		return;
+	}
+	fs.seekg(sizeof(header), std::ios_base::_Seekbeg);
+	unsigned short sum = 0;
+	for (int i = 0; i < header.size; i++) {
+		unsigned char c;
+		fs.read((char*)&c, sizeof(char));
+		sum += c;
+	}
+	if (sum != header.checkSum) {
+		//ToDo checkSumとsumが合っているか、あってなければエラー終了
+		MessageBox(nullptr, "データが破損しています",
+			"エラー", MB_OK);
+		fs.close();
+		return;
+	}
+
+	// 本来はバージョンごとに変える
+	fs.seekg(sizeof(header), std::ios_base::_Seekbeg);
+	char* buf = new char[header.size];
+	fs.read(buf, header.size);
+
+	for (int i = 0; i < header.checkSum; i++) {
+		buf[i] -= 1;
+	}
+
+	char* readp = buf;
 	VECTOR pos;
-	fs.read((char*)&pos, sizeof(VECTOR));
+//	fs.read((char*)&pos, sizeof(VECTOR));
+	readData(readp, (char*)&pos, sizeof(VECTOR));
 	Player* pl = Instantiate<Player>();
 	pl->SetPosition(pos);
 	int size;
-	fs.read((char*)&size, sizeof(int));
+//	fs.read((char*)&size, sizeof(int));
+	readData(readp, (char*)&size, sizeof(int));
 	for (int i = 0; i < size; i++) {
 		Goblin* g = Instantiate<Goblin>();
-		fs.read((char*)&pos, sizeof(VECTOR));
+//		fs.read((char*)&pos, sizeof(VECTOR));
+		readData(readp, (char*)&pos, sizeof(VECTOR));
 		g->SetPosition(pos);
 	}
 	fs.close();
