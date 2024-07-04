@@ -14,7 +14,13 @@
 
 PlayScene::PlayScene()
 {
-	Instantiate<Axis>();
+	if (CheckHitKey(KEY_INPUT_3)) {
+		Instantiate<Stage>();
+		Savedata* pSave = new Savedata();
+		pSave->Load();
+		delete pSave;
+		return;
+	}
 	Instantiate<Player>();
 //	Instantiate<Goblin>();
 	Instantiate<Stage>();
@@ -58,8 +64,9 @@ void PlayScene::Update()
 		SceneManager::ChangeScene("TitleScene");
 	}
 	if (CheckHitKey(KEY_INPUT_5)) {
-		Savedata* pSave = Instantiate<Savedata>();
+		Savedata* pSave = new Savedata();
 		pSave->Save();
+		delete pSave;
 	}
 }
 

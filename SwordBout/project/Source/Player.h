@@ -14,6 +14,10 @@ public:
 	VECTOR Position() {
 		return position;
 	}
+	void SetPosition(VECTOR pos) {
+		position = pos;
+	}
+
 	bool Attacking() {
 		return attacking>0;
 	}

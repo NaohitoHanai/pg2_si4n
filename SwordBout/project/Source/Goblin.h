@@ -20,6 +20,9 @@ public:
 	void SetPosition(float x, float y, float z) {
 		position = VGet(x, y, z);
 	}
+	void SetPosition(VECTOR pos) {
+		position = pos;
+	}
 
 	/// <summary>
 	/// ƒvƒŒƒCƒ„[‚©‚ç‚ÌUŒ‚‚ğó‚¯‚é
