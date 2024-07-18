@@ -56,6 +56,9 @@
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>ImGUI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Stage.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -122,6 +125,9 @@
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
       <Filter>ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stage.h">
+      <Filter>PlayScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

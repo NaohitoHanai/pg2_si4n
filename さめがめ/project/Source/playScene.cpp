@@ -4,9 +4,11 @@
 #include <DxLib.h>
 #include "Screen.h"
 #include "../Library/Time.h"
+#include "Stage.h"
 
 PlayScene::PlayScene()
 {
+	Instantiate<Stage>();
 }
 
 PlayScene::~PlayScene()
