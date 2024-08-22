@@ -26,7 +26,7 @@ void Player::Update()
 		position.x -= 1.0f;
 //	if (CheckHitKey(KEY_INPUT_SPACE)) {
 //		new Zap(position);
-	}
+//	}
 }
 
 void Player::Draw()

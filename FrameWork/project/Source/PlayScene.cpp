@@ -1,8 +1,12 @@
 #include "PlayScene.h"
 #include <DxLib.h>
+#include "player.h"
 
 PlayScene::PlayScene()
 {
+	GameObject* player = new Player();
+	player->Update();
+	delete player;
 }
 
 PlayScene::~PlayScene()
