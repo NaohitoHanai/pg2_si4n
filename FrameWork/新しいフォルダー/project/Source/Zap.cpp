@@ -12,9 +12,6 @@ Zap::Zap(VECTOR pos)
 
 Zap::~Zap()
 {
-	if (hImage > 0) {
-		DeleteGraph(hImage);
-	}
 }
 
 void Zap::Update()

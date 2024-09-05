@@ -3,8 +3,14 @@
 
 class GameObject {
 public:
-	GameObject() {}
+	GameObject();
 	virtual ~GameObject() {}
 	virtual void Update() {}
 	virtual void Draw() {}
+	void DestroyMe();
+	bool IsDestroy() {
+		return destroy;
+	}
+private:
+	bool destroy;
 };

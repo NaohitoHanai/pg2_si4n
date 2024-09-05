@@ -1,25 +1,57 @@
 #include "ObjectManager.h"
-#include "../Source/Player.h" // 仮
-
-GameObject* player; // 仮
 
 void ObjectManager::Init()
 {
-	player = new Player();
+	objects.clear();
 }
 
 void ObjectManager::Update()
 {
-	player->Update();
+	// イテレーター版
+	std::list<GameObject*> eraseObj;
+
+	for (auto itr = objects.begin(); itr != objects.end(); itr++) {
+		(*itr)->Update();
+		if ((*itr)->IsDestroy()) {
+			// 後で消す
+			eraseObj.push_back(*itr);
+		}
+	}
+	for (GameObject* obj : eraseObj)
+	{
+		Pop(obj);
+		delete obj;
+	}
 }
 
 void ObjectManager::Draw()
 {
-	player->Draw();
+	// 範囲for
+	for (GameObject* obj : objects) {
+		obj->Draw();
+	}
 }
 
 void ObjectManager::Release()
 {
+}
+
+void ObjectManager::Push(GameObject* obj)
+{
+	objects.push_back(obj);
+}
+
+void ObjectManager::Pop(GameObject* obj)
+{
+	for (auto itr = objects.begin(); itr != objects.end();) {
+		if (*itr == obj) {
+			// 消す
+			itr = objects.erase(itr);
+		}
+		else {
+			itr++;
+		}
+	}
 }
 
 ObjectManager::ObjectManager()

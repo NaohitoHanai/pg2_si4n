@@ -41,6 +41,9 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Library\ObjectManager.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
     <ClCompile Include="Library\SceneManager.cpp">
       <Filter>Library</Filter>
     </ClCompile>
@@ -50,11 +53,8 @@
     <ClCompile Include="Source\player.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
-    <ClCompile Include="Library\ObjectManager.cpp">
-      <Filter>Library</Filter>
-    </ClCompile>
-    <ClCompile Include="Library\GameObject.cpp" />
-    <ClCompile Include="Source\Zap.cpp">
+    <ClCompile Include="Source\Zap.cpp" />
+    <ClCompile Include="Source\Enemy.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,6 +65,9 @@
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="Library\SceneBase.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\GameObject.h">
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="Source\BootScene.h">
@@ -106,6 +109,9 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="Library\ObjectManager.h">
+      <Filter>Library</Filter>
+    </ClInclude>
     <ClInclude Include="Library\SceneManager.h">
       <Filter>Library</Filter>
     </ClInclude>
@@ -115,11 +121,8 @@
     <ClInclude Include="Source\player.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
-    <ClInclude Include="Library\GameObject.h">
-      <Filter>Library</Filter>
-    </ClInclude>
-    <ClInclude Include="Library\ObjectManager.h">
-      <Filter>Library</Filter>
+    <ClInclude Include="Source\Enemy.h">
+      <Filter>PlayScene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Zap.h">
       <Filter>PlayScene</Filter>

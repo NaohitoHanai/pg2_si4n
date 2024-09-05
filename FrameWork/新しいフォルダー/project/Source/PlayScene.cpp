@@ -1,11 +1,12 @@
 #include "PlayScene.h"
 #include <DxLib.h>
-#include "player.h"
+#include "Player.h"
+#include "Enemy.h"
 
 PlayScene::PlayScene()
 {
-	// Playerのインスタンスを作って、ObjectManagerに登録する
 	new Player();
+	new Enemy();
 }
 
 PlayScene::~PlayScene()

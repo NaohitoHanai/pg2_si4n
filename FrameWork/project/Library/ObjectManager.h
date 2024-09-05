@@ -6,6 +6,8 @@
 // ③namespaceで囲む
 // ④インスタンスをグローバルにする
 // 今回はシングルトンで書く
+#include <list>
+#include "GameObject.h"
 
 class ObjectManager {
 public:
@@ -20,6 +22,19 @@ public:
 	void Update();
 	void Draw();
 	void Release();
+	/// <summary>
+	/// objをobjectsに追加する
+	/// </summary>
+	/// <param name="obj"></param>
+	void Push(GameObject* obj);
+
+	/// <summary>
+	/// objectsから削除する
+	/// </summary>
+	/// <param name="obj"></param>
+	void Pop(GameObject* obj);
+
 private:
 	ObjectManager(); // コンストラクターはprivateにする
+	std::list<GameObject*> objects;
 };
