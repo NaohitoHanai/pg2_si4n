@@ -1,5 +1,6 @@
 #include "Tank.h"
 #include "../ImGui/imgui.h"
+#include "Ground.h"
 
 Tank::Tank()
 {
@@ -33,6 +34,26 @@ void Tank::Update()
 	}
 	if (CheckHitKey(KEY_INPUT_A)) {
 		rotation.y -= DegToRad(3.0f);
+	}
+
+	Ground* g = FindGameObject<Ground>();
+	float y = g->GetHeight(position);
+	if (y >= -9000.0f) {
+		position.y = y;
+	}
+	float right = g->GetHeight(position + VGet(248, 0, 0) * MGetRotY(rotation.y));
+	float left = g->GetHeight(position + VGet(-248, 0, 0) * MGetRotY(rotation.y));
+	if (right >= -9000.f && left >= -9000.0f) {
+		float b = 248 - (-248);
+		float c = right - left;
+		rotation.z = atan2(c, b);
+	}
+	float front = g->GetHeight(position + VGet(0, 0, -419) * MGetRotY(rotation.y));
+	float back = g->GetHeight(position + VGet(0, 0, 464) * MGetRotY(rotation.y));
+	if (front >= -9000.f && back >= -9000.0f) {
+		float b = 464 - (-419);
+		float c = front - back;
+		rotation.x = atan2(c, b);
 	}
 }
 
@@ -68,12 +89,11 @@ void TankTower::Update()
 	if (CheckHitKey(KEY_INPUT_LEFT)) {
 		rotation.y -= DegToRad(3.0f);
 	}
-}
 
-// 問題
-// 親子関係にある物体を描画するとき
-// 子は、自分の行列を作った後、何を掛けて、
-// 描画するか？
+	SetCameraPositionAndTarget_UpVecY(
+		VGet(0, 500, 900)*matrix,
+		VGet(0, 100, 0)*matrix);
+}
 
 void TankTower::Draw()
 {
@@ -102,6 +122,12 @@ TankGun::~TankGun()
 
 void TankGun::Update()
 {
+	if (CheckHitKey(KEY_INPUT_UP)) {
+		rotation.x += DegToRad(3.0f);
+	}
+	if (CheckHitKey(KEY_INPUT_DOWN)) {
+		rotation.x -= DegToRad(3.0f);
+	}
 }
 
 void TankGun::Draw()

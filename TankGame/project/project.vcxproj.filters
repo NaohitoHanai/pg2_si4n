@@ -50,8 +50,10 @@
     <ClCompile Include="Library\Time.cpp">
       <Filter>Library</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Ground.cpp" />
     <ClCompile Include="Source\Tank.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Ground.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
   </ItemGroup>
