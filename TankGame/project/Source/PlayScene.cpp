@@ -1,8 +1,12 @@
 #include "PlayScene.h"
 #include <DxLib.h>
+#include "Tank.h"
+#include "Ground.h"
 
 PlayScene::PlayScene()
 {
+	new Tank();
+	new Ground();
 }
 
 PlayScene::~PlayScene()

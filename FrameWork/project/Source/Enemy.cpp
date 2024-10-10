@@ -1,4 +1,6 @@
 #include "Enemy.h"
+#include "Zap.h"
+#include "../Library/ObjectManager.h"
 
 Enemy::Enemy()
 {
@@ -13,6 +15,14 @@ Enemy::~Enemy()
 
 void Enemy::Update()
 {
+	auto zaps = ObjectManager::GetInst()->FindGameObjects<Zap>();
+	for (Zap* zap : zaps)  {
+		VECTOR zPos = zap->Position();
+		if (VSize(VSub(zPos, position)) < 32) {
+			zap->DestroyMe();
+			position.y -= 5;
+		}
+	}
 	timer++;
 }
 

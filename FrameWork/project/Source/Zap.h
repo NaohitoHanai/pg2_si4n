@@ -8,6 +8,10 @@ public:
 	~Zap();
 	void Update() override;
 	void Draw() override;
+
+	VECTOR Position() const {
+		return position;
+	}
 private:
 	int hImage;
 	VECTOR position;

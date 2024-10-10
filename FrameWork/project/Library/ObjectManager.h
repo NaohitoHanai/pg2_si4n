@@ -7,7 +7,7 @@
 // ④インスタンスをグローバルにする
 // 今回はシングルトンで書く
 #include <list>
-#include "GameObject.h"
+class GameObject;
 
 class ObjectManager {
 public:
@@ -33,6 +33,24 @@ public:
 	/// </summary>
 	/// <param name="obj"></param>
 	void Pop(GameObject* obj);
+
+	template <class C> C* FindGameObject() {
+		for (GameObject* obj : objects) {
+			C* inst = dynamic_cast<C*>(obj);
+			if (inst != nullptr)
+				return inst;
+		}
+		return nullptr;
+	}
+	template <class C> std::list<C*> FindGameObjects() {
+		std::list<C*> out;
+		for (GameObject* obj : objects) {
+			C* inst = dynamic_cast<C*>(obj);
+			if (inst != nullptr)
+				out.push_back(inst);
+		}
+		return out;
+	}
 
 private:
 	ObjectManager(); // コンストラクターはprivateにする

@@ -12,7 +12,7 @@
 #define DBG_NEW new
 #endif
 
-#define IMGUI 0
+#define IMGUI 1
 #include <DxLib.h>
 #include "App.h"
 #include "../Source/Screen.h"
