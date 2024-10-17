@@ -56,6 +56,12 @@
     <ClCompile Include="Source\Ground.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Bullet.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Target.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -124,6 +130,12 @@
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="Source\Ground.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bullet.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Target.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
   </ItemGroup>

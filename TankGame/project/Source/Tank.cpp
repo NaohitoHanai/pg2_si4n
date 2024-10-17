@@ -1,6 +1,7 @@
 #include "Tank.h"
 #include "../ImGui/imgui.h"
 #include "Ground.h"
+#include "Bullet.h"
 
 Tank::Tank()
 {
@@ -128,6 +129,13 @@ void TankGun::Update()
 	if (CheckHitKey(KEY_INPUT_DOWN)) {
 		rotation.x -= DegToRad(3.0f);
 	}
+
+	if (CheckHitKey(KEY_INPUT_SPACE)) {
+		VECTOR pos = VGet(0,0,-400)*matrix; // Ç«Ç±Ç©ÇÁ
+		VECTOR vel = VNorm(VGet(0, 0, -400)) * 100.0f;
+		vel = VTransformSR(vel, matrix);
+		new Bullet(pos, vel);
+	}
 }
 
 void TankGun::Draw()
@@ -136,10 +144,17 @@ void TankGun::Draw()
 	MATRIX mr = MGetRotZ(rotation.z) *
 		MGetRotX(rotation.x) * MGetRotY(rotation.y);
 	MATRIX m = MGetTranslate(position);
-	MATRIX matrix = ms * mr * m;
+	matrix = ms * mr * m;
 	TankTower* parent = FindGameObject<TankTower>();
 	matrix *= parent->Matrix();
 	// matrixÇ…êeÅiTankÅjÇÃMatrixÇä|ÇØÇÈ
 	MV1SetMatrix(hModel, matrix);
 	MV1DrawModel(hModel);
+
+	// íeÇÃó\ë™ê¸Çï\é¶
+
+}
+
+void TankGun::PredictionLine(VECTOR pos, VECTOR vel)
+{
 }

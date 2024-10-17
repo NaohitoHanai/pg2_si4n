@@ -12,6 +12,9 @@ private:
 	int hModel;
 	VECTOR position;
 	VECTOR rotation;
+	MATRIX matrix;
+
+	void PredictionLine(VECTOR pos, VECTOR vel);
 };
 
 class TankTower : public GameObject {

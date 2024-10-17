@@ -33,7 +33,14 @@ void ObjectManager::Update()
 	}
 	for (GameObject* obj : destroyedObject)
 	{
-		delete obj;
+		for (auto itr = objects->begin(); itr != objects->end();) {
+			if (*itr == obj) {
+				delete obj;
+				itr = objects->erase(itr);
+			}
+			else
+				itr++;
+		}
 	}
 }
 

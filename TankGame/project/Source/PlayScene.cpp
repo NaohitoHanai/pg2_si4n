@@ -2,11 +2,13 @@
 #include <DxLib.h>
 #include "Tank.h"
 #include "Ground.h"
-
+#include "Target.h"
 PlayScene::PlayScene()
 {
 	new Tank();
 	new Ground();
+	new Target(VGet(0, 100, 600));
+	new Target(VGet(300, 100, 600));
 }
 
 PlayScene::~PlayScene()
