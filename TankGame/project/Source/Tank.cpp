@@ -130,11 +130,13 @@ void TankGun::Update()
 		rotation.x -= DegToRad(3.0f);
 	}
 
-	if (CheckHitKey(KEY_INPUT_SPACE)) {
-		VECTOR pos = VGet(0,0,-400)*matrix; // どこから
-		VECTOR vel = VNorm(VGet(0, 0, -400)) * 100.0f;
-		vel = VTransformSR(vel, matrix);
-		new Bullet(pos, vel);
+	if (FindGameObject<Bullet>() == nullptr) {
+		if (CheckHitKey(KEY_INPUT_SPACE)) {
+			VECTOR pos = VGet(0, 0, -400) * matrix; // どこから
+			VECTOR vel = VNorm(VGet(0, 0, -400)) * 100.0f;
+			vel = VTransformSR(vel, matrix);
+			new Bullet(pos, vel);
+		}
 	}
 }
 
@@ -151,8 +153,23 @@ void TankGun::Draw()
 	MV1SetMatrix(hModel, matrix);
 	MV1DrawModel(hModel);
 
-	// 弾の予測線を表示
-
+	// 弾の予測線を表示 10フレームごとに、
+	// DrawSphere3Dで点を書く
+	// 発射したとして、位置と速度を求める
+	VECTOR pos = VGet(0, 0, -400) * matrix; // どこから
+	VECTOR vel = VNorm(VGet(0, 0, -400)) * 100.0f;
+	vel = VTransformSR(vel, matrix);
+	Ground* g = FindGameObject<Ground>();
+	for (int n = 0; n < 20; n++) {
+		float t = 10.0f;
+		pos += vel * t - VGet(0, Bullet::Gravity, 0) * t * t / 2.0f;
+		vel.y -= Bullet::Gravity * t;
+		if (g->GetHeight(pos) > pos.y) {
+			break;
+		}
+		DrawSphere3D(pos, 10, 20,
+			GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
+	}
 }
 
 void TankGun::PredictionLine(VECTOR pos, VECTOR vel)

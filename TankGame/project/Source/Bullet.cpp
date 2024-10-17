@@ -17,8 +17,10 @@ Bullet::~Bullet()
 
 void Bullet::Update()
 {
+	oldPosition = position;
+
 	position += velocity;
-	velocity.y -= 0.3f;
+	velocity.y -= Gravity;
 	Ground* g = FindGameObject<Ground>();
 	if (g->GetHeight(position) > position.y) {
 		DestroyMe();
@@ -27,5 +29,5 @@ void Bullet::Update()
 
 void Bullet::Draw()
 {
-	DrawSphere3D(position, 50.0, 20, GetColor(255, 0, 0), GetColor(255, 255, 255), TRUE);
+	DrawSphere3D(position, Radius, 20, GetColor(255, 0, 0), GetColor(255, 255, 255), TRUE);
 }
