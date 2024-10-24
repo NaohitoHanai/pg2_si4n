@@ -50,6 +50,12 @@
     <ClCompile Include="Library\Time.cpp">
       <Filter>Library</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Stage.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -113,6 +119,15 @@
     </ClInclude>
     <ClInclude Include="Library\myDxLib.h">
       <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Stage.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SphereCollider.h">
+      <Filter>PlayScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
