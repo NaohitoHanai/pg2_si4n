@@ -13,4 +13,6 @@ public:
 	//•Ç‚Æ“–‚Ä‚ÄA‰Ÿ‚µ•Ô‚·Œü‚«‚Æ—Ê‚ğ•Ô‚·
 private:
 	int hWall; // •Ç‚Ìƒ‚ƒfƒ‹
+	const VECTOR& collisionSquare(const VECTOR& pos, SphereCollider* col,
+		VECTOR point[4], VECTOR normal);
 };

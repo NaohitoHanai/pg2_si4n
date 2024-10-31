@@ -1,11 +1,10 @@
 #pragma once
 #include "../Library/GameObject.h"
-#include "SphereCollider.h"
-class Player : public GameObject {
+class Coin : public GameObject {
 public:
-	Player();
-	Player(const VECTOR& pos);
-	~Player();
+	Coin();
+	Coin(const VECTOR& pos);
+	~Coin();
 	void Update() override;
 	void Draw() override;
 	const VECTOR& Position() {
@@ -13,5 +12,4 @@ public:
 	}
 private:
 	VECTOR position;
-	SphereCollider* collider;
 };

@@ -1,6 +1,7 @@
 #include "PlayScene.h"
 #include <DxLib.h>
 #include "Stage.h"
+#include "SaveLoad.h"
 
 PlayScene::PlayScene()
 {
@@ -15,6 +16,14 @@ void PlayScene::Update()
 {
 	if (CheckHitKey(KEY_INPUT_T)) {
 		SceneManager::ChangeScene("TITLE");
+	}
+	if (CheckHitKey(KEY_INPUT_K)) {
+		SaveLoad save;
+		save.Save();
+	}
+	if (CheckHitKey(KEY_INPUT_L)) {
+		SaveLoad load;
+		load.Load();
 	}
 }
 

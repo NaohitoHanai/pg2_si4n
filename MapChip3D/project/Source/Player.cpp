@@ -11,6 +11,9 @@ Player::Player()
 Player::Player(const VECTOR& pos)
 {
 	position = pos;
+	collider = new SphereCollider();
+	collider->offset = VGet(0, 50.0f, 0);
+	collider->radius = 48.0f; // •Ç‚Éˆø‚Á‚©‚©‚ç‚È‚¢‚æ‚¤‚É¬‚³‚ß
 }
 
 Player::~Player()
