@@ -12,4 +12,5 @@ public:
 	}
 private:
 	VECTOR position;
+	int hModel;
 };

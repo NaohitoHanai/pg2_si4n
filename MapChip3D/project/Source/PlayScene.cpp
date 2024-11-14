@@ -2,10 +2,12 @@
 #include <DxLib.h>
 #include "Stage.h"
 #include "SaveLoad.h"
+#include "Score.h"
 
 PlayScene::PlayScene()
 {
 	new Stage();
+	new Score();
 }
 
 PlayScene::~PlayScene()
