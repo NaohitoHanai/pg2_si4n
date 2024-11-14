@@ -12,5 +12,10 @@ public:
 	}
 private:
 	VECTOR position;
+	float height;
+	float velocity;
+	float rotation;
 	int hModel;
+	bool got;
+	float gotTimer;
 };
