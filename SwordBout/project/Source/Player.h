@@ -3,6 +3,8 @@
 #include "animation.h"
 #include <vector>
 
+class Locus;
+
 class Player : public GameObject
 {
 public:
@@ -76,4 +78,6 @@ private:
 
 	bool CheckJumpKey();
 	void reachToEnemy();
+
+	Locus* locus;
 };

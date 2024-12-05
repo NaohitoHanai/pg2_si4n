@@ -84,6 +84,7 @@
       <Filter>PlayScene</Filter>
     </ClCompile>
     <ClCompile Include="Source\Savedata.cpp" />
+    <ClCompile Include="Source\Locus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -179,6 +180,9 @@
       <Filter>PlayScene</Filter>
     </ClInclude>
     <ClInclude Include="Source\Savedata.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Locus.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
   </ItemGroup>

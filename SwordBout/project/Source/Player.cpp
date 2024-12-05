@@ -4,9 +4,12 @@
 #include "../Library/Time.h"
 #include "../ImGui/imgui.h"
 #include "csvReader.h"
+#include "Locus.h"
 
 Player::Player()
 {
+	locus = Instantiate<Locus>();
+
 	hModel = MV1LoadModel("data/Character/Player/PC.mv1");
 	int root = MV1SearchFrame(hModel, "root");
 	MV1SetFrameUserLocalMatrix(hModel, root, MGetRotY(DX_PI_F));
@@ -116,10 +119,13 @@ void Player::Update()
 	SetCameraPositionAndTarget_UpVecY( cameraPosition, position );
 
 	// UŒ‚”»’è
+	VECTOR p1 = VGet(0, 0, 0) * mWeapon;
+	VECTOR p2 = VGet(0, -200, 0) * mWeapon;
+	locus->Add(p1, p2);
 	if (attacking > 0) {
 		if (canAttack) {
-			VECTOR p1 = VGet(0, 0, 0) * mWeapon;
-			VECTOR p2 = VGet(0, -200, 0) * mWeapon;
+//			VECTOR p1 = VGet(0, 0, 0) * mWeapon;
+//			VECTOR p2 = VGet(0, -200, 0) * mWeapon;
 			std::list<Goblin*> pGoblins = ObjectManager::FindGameObjects<Goblin>();
 			for (Goblin* pGoblin : pGoblins) {
 				if (pGoblin->PlayerAttack(position, position, p2)) {
