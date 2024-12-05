@@ -89,6 +89,12 @@ void Player::Update()
 		}
 	}
 	else {
+		if (animation->GetCurrentFrame() < 5) {
+			MATRIX rotY = MGetRotY(rotation.y); // ‰ñ“]s—ñ‚ðì‚é
+			VECTOR move = VGet(0, 0, 5);  // ‰ñ“]‚µ‚Ä‚È‚¢Žž‚ÌˆÚ“®ƒxƒNƒgƒ‹
+			VECTOR forward = move * rotY; // ‰ñ“]s—ñ‚ðŠ|‚¯‚é‚Æforward
+			position += forward;
+		}
 		if (animation->IsEnd())
 			attacking = 0;
 	}
@@ -114,12 +120,18 @@ void Player::Update()
 		if (canAttack) {
 			VECTOR p1 = VGet(0, 0, 0) * mWeapon;
 			VECTOR p2 = VGet(0, -200, 0) * mWeapon;
-			Goblin* pGoblin = ObjectManager::FindGameObject<Goblin>();
-			if (pGoblin->PlayerAttack(position, p1, p2)) {
-				MessageQueue::Param p;
-				p.intVal = 10;
-				pGoblin->message.ReceiveMessage(
-								Goblin::ADD_DAMAGE, p);
+			std::list<Goblin*> pGoblins = ObjectManager::FindGameObjects<Goblin>();
+			for (Goblin* pGoblin : pGoblins) {
+				if (pGoblin->PlayerAttack(position, position, p2)) {
+//					MessageQueue::Param p;
+//					p.intVal = 10;
+//					pGoblin->message.ReceiveMessage(
+//						Goblin::ADD_DAMAGE, p);
+					MATRIX rotY = MGetRotY(rotation.y); // ‰ñ“]s—ñ‚ðì‚é
+					VECTOR move = VGet(0, 0, 30);  // ‰ñ“]‚µ‚Ä‚È‚¢Žž‚ÌˆÚ“®ƒxƒNƒgƒ‹
+					VECTOR forward = move * rotY; // ‰ñ“]s—ñ‚ðŠ|‚¯‚é‚Æforward
+					pGoblin->AddDamage(10, forward);
+				}
 			}
 		}
 	}

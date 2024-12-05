@@ -1,5 +1,6 @@
 #pragma once
 #include "../Library/SceneBase.h"
+#include <vector>
 
 /// <summary>
 /// タイトルシーン
@@ -13,4 +14,11 @@ public:
 	~TitleScene();
 	void Update() override;
 	void Draw() override;
+private:
+	int num;
+	struct RANK {
+		int score;
+		const char* name;
+	};
+	std::vector<RANK> score;
 };

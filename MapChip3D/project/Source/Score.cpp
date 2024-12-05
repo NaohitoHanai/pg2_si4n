@@ -3,6 +3,7 @@
 Score::Score()
 {
 	score = 0;
+	viewScore = 0;
 }
 
 Score::~Score()

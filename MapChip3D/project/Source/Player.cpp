@@ -18,6 +18,9 @@ Player::Player(const VECTOR& pos)
 
 Player::~Player()
 {
+	if (collider != nullptr) {
+		delete collider;
+	}
 }
 
 void Player::Update()

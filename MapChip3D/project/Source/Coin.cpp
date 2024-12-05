@@ -17,14 +17,17 @@ Coin::Coin(const VECTOR& pos)
 
 Coin::~Coin()
 {
+	if (hModel > 0) {
+		MV1DeleteModel(hModel);
+	}
 }
 
 void Coin::Update()
 {
 	if (got) { // æ“¾‰‰o
 		const float maxTime = 0.8f; // Å‘åŠÔ
-//		height = sin((gotTimer/maxTime)*DegToRad(100.0f)) * 400.0f + 100.0f;
-		//                              sin‹Èü‚Ì‚Ç‚±‚Ü‚Å   ‚‚³     Å‰‚ÌˆÊ’u
+		//		height = sin((gotTimer/maxTime)*DegToRad(100.0f)) * 400.0f + 100.0f;
+				//                              sin‹Èü‚Ì‚Ç‚±‚Ü‚Å   ‚‚³     Å‰‚ÌˆÊ’u
 		float x = (gotTimer / maxTime) * 1.5f;
 		height = (-(x - 1) * (x - 1) + 1) * 400 + 100;
 		gotTimer += Time::DeltaTime();
@@ -35,6 +38,9 @@ void Coin::Update()
 		return;
 	}
 	Player* pl = FindGameObject<Player>();
+	if (pl == nullptr) {
+		return;
+	}
 	VECTOR pPos = pl->Position();
 	rotation += DegToRad(1.0f);
 

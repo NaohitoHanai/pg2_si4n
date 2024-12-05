@@ -3,11 +3,13 @@
 #include "Stage.h"
 #include "SaveLoad.h"
 #include "Score.h"
+#include "Camera.h"
 
 PlayScene::PlayScene()
 {
 	new Stage();
 	new Score();
+	new Camera();
 }
 
 PlayScene::~PlayScene()

@@ -5,18 +5,25 @@
 
 using namespace std;
 
-const vector<string> map = {
-	"WWWWWWWWWW",
-	"W  W  c  W",
-	"W o  c WWW",
-	"WWWWWWWW",
-};
-
+int m;
 Stage::Stage()
 {
+	const vector<string> orgMap = {
+	"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+	"W  W  c      WWW                W",
+	"W o  c WWWW               c     W",
+	"W    c                          W",
+	"W    c               c          W",
+	"W    c        WWWWW  c          W",
+	"W    c        WWWWW  c          W",
+	"W    c        WWWWW             W",
+	"W    c WWWW                     W",
+	"W    c WWWW                   WWW",
+	"WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+	};
+	map = orgMap;
+
 	hWall = MV1LoadModel("data/wallEarth01.mv1");
-	SetCameraPositionAndTarget_UpVecY(
-		VGet(100, 1000, -400), VGet(0, 0, 0));
 	for (int z = 0; z < map.size(); z++) {
 		for (int x = 0; x < map[z].size(); x++) {
 			if (map[z][x] == 'o') {

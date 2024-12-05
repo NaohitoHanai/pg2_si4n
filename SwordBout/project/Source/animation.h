@@ -9,6 +9,7 @@ public:
 	void Update();
 	void SetModel(int model);
 	void Play(int animModel, bool loop=true);
+	void PlayForce(int animModel, bool loop = true);
 	float GetCurrentFrame() {return frame;}
 
 	/// <summary>

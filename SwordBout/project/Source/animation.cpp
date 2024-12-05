@@ -41,16 +41,21 @@ void Animation::Play(int animModel, bool loop)
 	if (curAnim == animModel)
 		return;
 
+	PlayForce(animModel, loop);
+}
+
+void Animation::PlayForce(int animModel, bool loop)
+{
 	curAnim = animModel;
-	if (attachIndex>=0) {
+	if (attachIndex >= 0) {
 		MV1DetachAnim(baseModel, attachIndex);
 		attachIndex = -1;
 	}
 	attachIndex = MV1AttachAnim(baseModel, 0,
-									animModel);
+		animModel);
 	loopMode = loop;
 	frame = 0;
 	maxFrame = MV1GetAttachAnimTotalTime(
-						baseModel, attachIndex);
+		baseModel, attachIndex);
 	MV1SetAttachAnimTime(baseModel, attachIndex, 0);
 }

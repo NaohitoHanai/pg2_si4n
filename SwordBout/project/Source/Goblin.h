@@ -41,16 +41,27 @@ public:
 	void AddPosition(const VECTOR& pos) {
 		position += pos;
 	}
+
+	/// <summary>
+	/// ダメージをくらう
+	/// </summary>
+	/// <param name="damageVal">ダメージ量</param>
+	/// <param name="dir">ノックバックするベクトル</param>
+	void AddDamage(int damageVal, VECTOR dir);
 private:
 	enum ANIM_ID {
 		WAIT = 0,
 		DAMAGE,
+		BLOW_IN,
+		BLOW_LOOP,
+		BLOW_OUT,
 		MAX
 	};
 	ANIM_ID animID;
 	enum State {
 		sWAIT = 0,
 		sDAMAGE,
+		sBLOW,
 	};
 	State state;
 	int hModel;
@@ -59,6 +70,8 @@ private:
 	VECTOR position;
 	VECTOR rotation;
 
+	float hp;
+	bool damaged;
 public:
 	enum Message {
 		ADD_DAMAGE = 1,
@@ -67,4 +80,6 @@ private:
 	void addDamage();
 
 	int voiceTime;
+	VECTOR lastLine1; // 前回の位置
+	VECTOR lastLine2;
 };

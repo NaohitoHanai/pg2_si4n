@@ -13,6 +13,9 @@ Goblin::Goblin()
 	animation->SetModel(hModel);
 	hAnim[WAIT] = MV1LoadModel("data/Character/Goblin/Anim_Neutral.mv1");
 	hAnim[DAMAGE] = MV1LoadModel("data/Character/Goblin/Anim_Damage.mv1");
+	hAnim[BLOW_IN] = MV1LoadModel("data/Character/Goblin/Anim_Blow_In.mv1");
+	hAnim[BLOW_LOOP] = MV1LoadModel("data/Character/Goblin/Anim_Blow_Loop.mv1");
+	hAnim[BLOW_OUT] = MV1LoadModel("data/Character/Goblin/Anim_Blow_Out.mv1");
 	position = VGet(0, 100, 300);
 	rotation = VGet(0, 0, 0);
 
@@ -20,6 +23,9 @@ Goblin::Goblin()
 	animation->Play(hAnim[WAIT]);
 
 	voiceTime = 0;
+
+	hp = 30; // ３回ダメージで死亡
+	damaged = false;
 }
 
 Goblin::~Goblin()
@@ -62,6 +68,12 @@ void Goblin::Update()
 		if (animation->IsEnd()) {
 			animation->Play(hAnim[WAIT]);
 			state = sWAIT;
+		}
+	}
+	else if (state == sBLOW) {
+
+		if (animation->IsEnd()) {
+			animation->Play(hAnim[BLOW_LOOP]);
 		}
 	}
 //	Player* pPlayer = ObjectManager::FindGameObject<Player>();
@@ -111,7 +123,7 @@ void Goblin::Update()
 		VECTOR hit;
 		if (pStage->CollLine(position + VGet(0, 500, 0), position + VGet(0, -500, 0), &hit))
 		{
-//			position = hit;
+			position = hit;
 		}
 	}
 }
@@ -123,28 +135,64 @@ void Goblin::Draw()
 	MV1DrawModel(hModel);
 }
 
-VECTOR lastLine1; // 前回の位置
-VECTOR lastLine2;
-
 bool Goblin::PlayerAttack(VECTOR playerPos, VECTOR weaponLine1, VECTOR weaponLine2)
 {
-	// ４本の線で当た
-	// っているか調べる
+	MV1SetupCollInfo(hModel, -1, 4, 4, 4, -1); 
+	MV1RefreshCollInfo(hModel);
 	bool hit = false;
-	for (int i = 1; i <= 4; i++) {
-		VECTOR p1 = (weaponLine1 - lastLine1) * (i / 4.0f) + lastLine1;
-		VECTOR p2 = (weaponLine2 - lastLine2) * (i / 4.0f) + lastLine2;
-		MV1_COLL_RESULT_POLY res = MV1CollCheck_Line(hModel, -1, p1, p2);
-		if (res.HitFlag) // 当たっている
-		{
-			hit = true;
-		}
+	auto ret = MV1CollCheck_Triangle(
+		hModel, -1,
+		weaponLine1, weaponLine2, lastLine1);
+	if (ret.HitNum > 0) {
+		hit = true;
 	}
+	ret = MV1CollCheck_Triangle(
+		hModel, -1,
+		lastLine1, weaponLine2, lastLine2);
+	if (ret.HitNum > 0) {
+		hit = true;
+	}
+	//// ４本の線で当た
+	//// っているか調べる
+	//bool hit = false;
+	//for (int i = 1; i <= 4; i++) {
+	//	VECTOR p1 = (weaponLine1 - lastLine1) * (i / 4.0f) + lastLine1;
+	//	VECTOR p2 = (weaponLine2 - lastLine2) * (i / 4.0f) + lastLine2;
+	//	MV1_COLL_RESULT_POLY res = MV1CollCheck_Line(hModel, -1, p1, p2);
+	//	if (res.HitFlag) // 当たっている
+	//	{
+	//		hit = true;
+	//	}
+	//}
 	
 	// ４本線のために、線情報を保存する
 	lastLine1 = weaponLine1;
 	lastLine2 = weaponLine2;
+	if (hit && damaged) {
+		return false;
+	}
+	if (hit) {
+		damaged = true;
+	}
+	else {
+		damaged = false;
+	}
 	return hit;
+}
+
+void Goblin::AddDamage(int damageVal, VECTOR dir)
+{
+	rotation.y = atan2(dir.x, dir.z);
+	hp -= damageVal;
+	if (hp <= 0) {
+		state = sBLOW;
+		animation->Play(hAnim[BLOW_IN], false);
+	}
+	else {
+		state = sDAMAGE;
+		animation->PlayForce(hAnim[DAMAGE], false);
+		position += dir;
+	}
 }
 
 void Goblin::addDamage()
