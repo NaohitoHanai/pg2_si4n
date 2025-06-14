@@ -1,5 +1,6 @@
 #pragma once
 #include "../Library/GameObject.h"
+#include <vector>
 
 // Locus.h
 // 剣の軌跡を表示する
@@ -28,4 +29,6 @@ private:
 	int oldestP; // 一番古い場所
 
 	int hImage; // 画像ファイル
+
+	void MakeVertexSpline(std::vector<VERTEX3D>& vt, int p0, int p1, int p2, int p3);
 };
